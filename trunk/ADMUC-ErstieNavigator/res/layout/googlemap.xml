@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <com.google.android.maps.MapView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/mapview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:apiKey="0hQTV9_MVtDEIiR84XTrURmjOmXRensLJl92j_w"
+            android:clickable="true" />
+        
+        
+        <ImageView
+            android:id="@+id/navi_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/navi_arrow" />
+
+    </FrameLayout>
+
+</ScrollView> <!-- keytool -list -alias androiddebugkey -keystore "C:\Users\Piq\.android\debug.keystore" -storepass android -keypass android ....generates md5hash for apikey -->
