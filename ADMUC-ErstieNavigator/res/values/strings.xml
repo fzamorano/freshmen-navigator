@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, ErstieNavi-Activity!</string>
+    <string name="app_name">Erstie-Navigator</string>
+    
+    <string name="start_winet">Start Navi (using the Internet)</string>
+    <string name="start_woinet">Start Navi (without using the Internet)</string>
+    
+    <string-array name="buildings">
+        <item>INF</item>
+        <item>HSZ</item>
+        <item>WIL</item>
+        <item>Neue Mensa</item>
+    </string-array>
+</resources>
