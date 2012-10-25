@@ -10,6 +10,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -172,4 +175,26 @@ public class MainActivity extends Activity {
 	public void toastL(String msg) {
 		Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
 	} // end toast
+	
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.options_menu_general, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle all of the possible menu actions.
+		switch (item.getItemId()) {
+			case R.id.menu_backtohome:
+				startActivity(new Intent(this, MainActivity.class));
+				return true;
+			case R.id.menu_exit:
+				finish();
+			case R.id.menu_settings:
+				startActivity(new Intent(this, SettingsActivity.class));
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 }

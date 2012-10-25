@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:title="Settings" >
+
+    <PreferenceCategory android:title="General Options" >
+
+        <ListPreference
+            android:id="@+id/listPref"
+            android:defaultValue="gps"
+            android:entries="@array/entryItems"
+            android:entryValues="@array/entryValues"
+            android:key="locationizeMethod"
+            android:summary="This preference allows to select an navigation-method for your tracking"
+            android:title="Choose Navi-Method"
+            android:onClick="onClickList" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

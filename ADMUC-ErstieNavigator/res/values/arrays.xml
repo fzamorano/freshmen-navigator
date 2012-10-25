@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="buildings">
+	<item>INF</item>
+	<item>HSZ</item>
+	<item>WIL</item>
+	<item>Neue Mensa</item>
+</string-array>
+	    
+<string-array name="entryItems">
+    <item>GPS (recommend)</item>
+	<item>Network</item>
+	<item>Passive</item>
+</string-array>
+
+<string-array name="entryValues">
+    <item>gps</item>
+	<item>network</item>
+	<item>passive</item>
+</string-array>
+</resources>
