@@ -5,11 +5,14 @@
     
     <string name="start_winet">Start Navi (using the Internet)</string>
     <string name="start_woinet">Start Navi (without using the Internet)</string>
+   
+    <string name="menu_backtohome">Back to Homescreen</string>
+    <string name="menu_exit">Exit</string>
+    <string name="menu_settings">Settings</string>
     
-    <string-array name="buildings">
-        <item>INF</item>
-        <item>HSZ</item>
-        <item>WIL</item>
-        <item>Neue Mensa</item>
-    </string-array>
+    <string name="rbgps">Use GPS proivder for your tracking</string>
+    <string name="rbnetwork">Use network proivder for tracking</string>
+    <string name="rbpassive">Use passive proivder for tracking</string>
+    
+    <string name="GOOGLE_MAPS_API_KEY">0hQTV9_MVtDEIiR84XTrURmjOmXRensLJl92j_w</string>
 </resources>
