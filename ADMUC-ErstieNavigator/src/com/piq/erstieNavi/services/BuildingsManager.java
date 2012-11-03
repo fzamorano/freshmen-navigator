@@ -18,7 +18,7 @@ public class BuildingsManager {
 		if (new File(getPath() + java.io.File.separator + "buildings.xml").exists()) {
 			System.out.println("readIn buildings from File");
 			buildingsList = new XMLBuilder().readXmlFile();
-			if(buildingsList == null) {
+			if (buildingsList == null) {
 				System.out.println("Something went wrong with readIn the Buildings. Recreating original file");
 				initAllBuildings();
 				new XMLBuilder().saveItems(buildingsList);
@@ -74,5 +74,18 @@ public class BuildingsManager {
 
 	public void setBuildingsList(ArrayList<Building> buildingsList) {
 		this.buildingsList = buildingsList;
+	}
+
+	public void addBuilding(Building building) {
+		buildingsList.add(building);
+		new XMLBuilder().saveItems(buildingsList);
+	}
+
+	public String[] getAbbrevs() {
+		String[] s = new String[buildingsList.size()];
+		for (int i = 0; i < buildingsList.size(); i++) {
+			s[i] = buildingsList.get(i).getAbbrev();
+		}
+		return s;
 	}
 }
