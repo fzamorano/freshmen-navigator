@@ -47,4 +47,10 @@ public class Building {
 		this.abbrev = abbrev;
 	}
 
+	@Override
+	public String toString() {
+		System.out.println("Name: " + name + " Abbrev: " + abbrev + " Lat: " + latitude + " Long: " + longitude);
+		return "Name: " + name + " Abbrev: " + abbrev + " Lat: " + latitude + " Long: " + longitude;
+	}
+
 }

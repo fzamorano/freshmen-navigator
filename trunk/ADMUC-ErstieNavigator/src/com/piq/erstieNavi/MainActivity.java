@@ -2,8 +2,6 @@ package com.piq.erstieNavi;
 
 import java.io.File;
 
-import com.piq.erstieNavi.services.AppStatus;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -23,6 +21,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.piq.erstieNavi.services.AppStatus;
+import com.piq.erstieNavi.services.BuildingsManager;
+
 public class MainActivity extends Activity {
 
 	private AutoCompleteTextView editFrom;
@@ -32,7 +33,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		File appLocation = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + java.io.File.separator + "Erstie-Navigator");
 		appLocation.mkdirs();
-		
+
 		ScrollView sv = new ScrollView(this);
 		LinearLayout ll = new LinearLayout(this);
 		ll.setOrientation(LinearLayout.VERTICAL);
@@ -42,7 +43,7 @@ public class MainActivity extends Activity {
 		ScrollView.LayoutParams params = new ScrollView.LayoutParams(ScrollView.LayoutParams.FILL_PARENT, ScrollView.LayoutParams.FILL_PARENT);
 		LinearLayout.LayoutParams paramsll = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
 		ll.setLayoutParams(params);
-
+		BuildingsManager bm = BuildingsManager.getInstance();
 		{
 			LinearLayout row = new LinearLayout(this);
 			row.setLayoutParams(paramsll);
@@ -53,7 +54,7 @@ public class MainActivity extends Activity {
 			row.addView(tvFrom);
 
 			editFrom = new AutoCompleteTextView(this);
-			String[] buildings = getResources().getStringArray(R.array.buildings);
+			String[] buildings = bm.getAbbrevs();
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, buildings);
 			editFrom.setAdapter(adapter);
 			editFrom.setLayoutParams(paramsll);
@@ -80,7 +81,7 @@ public class MainActivity extends Activity {
 			row.addView(tvTo);
 
 			editTo = new AutoCompleteTextView(this);
-			String[] buildings = getResources().getStringArray(R.array.buildings);
+			String[] buildings = bm.getAbbrevs();
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, buildings);
 			editTo.setAdapter(adapter);
 			editTo.setLayoutParams(paramsll);
@@ -118,10 +119,10 @@ public class MainActivity extends Activity {
 		naviWithoutInternetButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (AppStatus.getInstance(getApplicationContext()).haveGPSConnection()) {
-						Intent i = new Intent(v.getContext(), NaviWithoutInternetActivity.class);
-						i.putExtra("from", editFrom.getText().toString());
-						i.putExtra("to", editTo.getText().toString());
-						startActivity(i);
+					Intent i = new Intent(v.getContext(), NaviWithoutInternetActivity.class);
+					i.putExtra("from", editFrom.getText().toString());
+					i.putExtra("to", editTo.getText().toString());
+					startActivity(i);
 				} else {
 					showGPSDisabledAlertToUser();
 					toastL("Please try again, after enabling GPS in your device.");
@@ -131,17 +132,17 @@ public class MainActivity extends Activity {
 		ll.addView(naviWithoutInternetButton);
 
 		Button tempButton = new Button(this);
-		tempButton.setText("TEMP");
+		tempButton.setText("Add a new Navipoint");
 		tempButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				
+				Intent i = new Intent(v.getContext(), NaviPointsActivity.class);
+				startActivity(i);
 			}
 		});
 		ll.addView(tempButton);
 
 		this.setContentView(sv);
 	}
-	
 
 	private void showGPSDisabledAlertToUser() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -175,25 +176,24 @@ public class MainActivity extends Activity {
 	public void toastL(String msg) {
 		Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
 	} // end toast
-	
-	
+
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.options_menu_general, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-	
+
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle all of the possible menu actions.
 		switch (item.getItemId()) {
-			case R.id.menu_backtohome:
-				startActivity(new Intent(this, MainActivity.class));
-				return true;
-			case R.id.menu_exit:
-				finish();
-			case R.id.menu_settings:
-				startActivity(new Intent(this, SettingsActivity.class));
-				return true;
+		case R.id.menu_backtohome:
+			startActivity(new Intent(this, MainActivity.class));
+			return true;
+		case R.id.menu_exit:
+			finish();
+		case R.id.menu_settings:
+			startActivity(new Intent(this, SettingsActivity.class));
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}

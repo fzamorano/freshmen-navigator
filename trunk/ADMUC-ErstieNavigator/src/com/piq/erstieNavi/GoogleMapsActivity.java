@@ -65,9 +65,8 @@ public class GoogleMapsActivity extends MapActivity {
 		GeoPoint toPoint = new GeoPoint((int) (locTo.getLatitude() * 1E6), (int) (locTo.getLongitude() * 1E6));
 		MyOverlayItem overlayitemT = new MyOverlayItem(toPoint, to.getName(), to.getAbbrev());
 
-
 		//TODO: draw the connecton between google´s startpoint and the given geoStart - maybe just draw it by hand in routeoverlay 
-		
+
 		Route route = null;
 		try {
 			route = new ReceiveDirections().execute(fromPoint, toPoint).get();
@@ -80,8 +79,7 @@ public class GoogleMapsActivity extends MapActivity {
 		}
 		RouteOverlay routeOverlay = new RouteOverlay(route, Color.BLUE);
 		mapView.getOverlays().add(routeOverlay);
-		
-		
+
 		ArrayList<GeoPoint> geoItems = new ArrayList<GeoPoint>();
 		geoItems.add(fromPoint);
 		geoItems.add(toPoint);
@@ -121,23 +119,23 @@ public class GoogleMapsActivity extends MapActivity {
 	}
 
 	private Route directions(final GeoPoint start, final GeoPoint dest) {
-	    Parser parser;
-	    String jsonURL = "http://maps.google.com/maps/api/directions/json?";
-	    final StringBuffer sBuf = new StringBuffer(jsonURL);
-	    sBuf.append("origin=");
-	    sBuf.append(start.getLatitudeE6()/1E6);
-	    sBuf.append(',');
-	    sBuf.append(start.getLongitudeE6()/1E6);
-	    sBuf.append("&destination=");
-	    sBuf.append(dest.getLatitudeE6()/1E6);
-	    sBuf.append(',');
-	    sBuf.append(dest.getLongitudeE6()/1E6);
-	    sBuf.append("&sensor=true&mode=walking");
-	    parser = new GoogleParser(sBuf.toString());
-	    Route r =  parser.parse(start, dest);
-	    return r;
+		Parser parser;
+		String jsonURL = "http://maps.google.com/maps/api/directions/json?";
+		final StringBuffer sBuf = new StringBuffer(jsonURL);
+		sBuf.append("origin=");
+		sBuf.append(start.getLatitudeE6() / 1E6);
+		sBuf.append(',');
+		sBuf.append(start.getLongitudeE6() / 1E6);
+		sBuf.append("&destination=");
+		sBuf.append(dest.getLatitudeE6() / 1E6);
+		sBuf.append(',');
+		sBuf.append(dest.getLongitudeE6() / 1E6);
+		sBuf.append("&sensor=true&mode=walking");
+		parser = new GoogleParser(sBuf.toString());
+		Route r = parser.parse(start, dest);
+		return r;
 	}
-	
+
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
