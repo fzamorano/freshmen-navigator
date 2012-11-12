@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
 			getCurrentLocationButton.setText("Use current Location");
 			getCurrentLocationButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-					editFrom.setText("use current Location");
+					editFrom.setText("Use Current Location");
 				}
 			});
 			ll.addView(getCurrentLocationButton);

@@ -24,46 +24,45 @@ import com.piq.erstieNavi.services.Compass;
 import com.piq.erstieNavi.services.GeoCoderGoogle;
 
 public class NaviWithInternetActivity extends Activity {
-
-	private static final long MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 5; // in Meters
-	private static final long MINIMUM_TIME_BETWEEN_UPDATES = 1000; // in Milliseconds
-
+	
+	private static final float MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 5f; // in Meters
+	private static final long MINIMUM_TIME_BETWEEN_UPDATES = 1000L; // in Milliseconds
+	
 	private GeoCoderGoogle geoCoder = new GeoCoderGoogle();
-	//public GeoCodeResult geoCodeResult;
+	// public GeoCodeResult geoCodeResult;
 	public String geoCodeResult = null;
-
+	
 	protected LocationManager locationManager;
 	protected Location targetLocation;
-
+	
 	protected Button googleMapsButton;
-
+	
 	private Bundle extras = null;
 	private String from;
 	private String to;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.navi_inet);
-
+		
 		extras = getIntent().getExtras();
 		if (extras != null) {
 			from = (String) extras.getString("from");
 			to = (String) extras.getString("to");
 		}
-
+		
 		googleMapsButton = (Button) findViewById(R.id.reverse_geocoding_button);
-
+		
 		TextView tvFrom = (TextView) findViewById(R.id.from);
 		TextView tvTo = (TextView) findViewById(R.id.to);
 		TextView tvDistance = (TextView) findViewById(R.id.distance);
 		TextView tvDirection = (TextView) findViewById(R.id.direction);
-
+		
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MINIMUM_TIME_BETWEEN_UPDATES, MINIMUM_DISTANCE_CHANGE_FOR_UPDATES, new MyLocationListener());
-
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MINIMUM_TIME_BETWEEN_UPDATES, MINIMUM_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
+		
 		final Location fromL = createLocationWithAbbr(from);
 		final Location toL = createLocationWithAbbr(to);
 		googleMapsButton.setOnClickListener(new OnClickListener() {
@@ -74,7 +73,7 @@ public class NaviWithInternetActivity extends Activity {
 				// startActivity(intent);
 				Intent myIntent = new Intent(v.getContext(), GoogleMapsActivity.class);
 				Bundle b = new Bundle();
-
+				
 				b.putDouble("fromLocationLong", fromL.getLongitude());
 				b.putDouble("fromLocationLat", fromL.getLatitude());
 				b.putDouble("toLocationLong", toL.getLongitude());
@@ -83,9 +82,9 @@ public class NaviWithInternetActivity extends Activity {
 				startActivity(myIntent);
 			}
 		});
-
+		
 		// request current location and set label with coords and address
-		if (from.equals("use current Location")) {
+		if (from.equals("Use Current Location")) {
 			getCurrentLocation();
 			performReverseGeocodingInBackground();
 			while (geoCodeResult == null) {
@@ -102,12 +101,12 @@ public class NaviWithInternetActivity extends Activity {
 		createLocationWithAbbrAndReverseGeocoding(to);
 		while (geoCodeResult == null) {
 		}
-
+		
 		tvTo.setText("Navigating to: " + geoCodeResult.toString() + "\nLong.: " + targetLocation.getLongitude() + " Lat.: " + targetLocation.getLatitude());
 		geoCodeResult = null;
-
+		
 		tvDistance.setText("Distance in km: " + Compass.getHaverSineDistance(fromL.getLatitude(), fromL.getLongitude(), toL.getLatitude(), toL.getLongitude()));
-
+		
 		tvDirection.setText("Just move into the following directon:");
 		ImageView image = (ImageView) findViewById(R.id.navi_arrow);
 		Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.navi_arrow);
@@ -116,7 +115,7 @@ public class NaviWithInternetActivity extends Activity {
 		Bitmap bMapRotate = Bitmap.createBitmap(bMap, 0, 0, bMap.getWidth(), bMap.getHeight(), mat, true);
 		image.setImageBitmap(bMapRotate);
 	}
-
+	
 	private void createLocationWithAbbrAndReverseGeocoding(String abbr) {
 		Location l = new Location(LocationManager.GPS_PROVIDER);
 		l.setLatitude(BuildingsManager.getInstance().getRequestedBuilding(abbr).getLatitude());
@@ -124,55 +123,66 @@ public class NaviWithInternetActivity extends Activity {
 		targetLocation = l;
 		performReverseGeocodingInBackground();
 	}
-
+	
 	private Location createLocationWithAbbr(String abbr) {
 		Location l = new Location(LocationManager.GPS_PROVIDER);
 		l.setLatitude(BuildingsManager.getInstance().getRequestedBuilding(abbr).getLatitude());
 		l.setLongitude(BuildingsManager.getInstance().getRequestedBuilding(abbr).getLongitude());
 		return l;
 	}
-
+	
 	protected void performReverseGeocodingInBackground() {
 		new ReverseGeocodeLookupTask().execute((Void[]) null);
 	}
-
+	
 	protected void showCurrentLocation() {
 		getCurrentLocation();
 		if (targetLocation != null) {
 			String message = String.format("Current Location \n Longitude: %1$s \n Latitude: %2$s", targetLocation.getLongitude(), targetLocation.getLatitude());
-			// Toast.makeText(NaviWithInternetActivity.this, message, Toast.LENGTH_LONG).show();
+			Toast.makeText(NaviWithInternetActivity.this, message, Toast.LENGTH_LONG).show();
 		}
 	}
-
+	
 	protected void getCurrentLocation() {
 		targetLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 	}
-
-	private class MyLocationListener implements LocationListener {
-
+	
+	private final LocationListener locationListener = new LocationListener() {
+		
 		public void onLocationChanged(Location location) {
-			String message = String.format("New Location \n Longitude: %1$s \n Latitude: %2$s", location.getLongitude(), location.getLatitude());
-			Toast.makeText(NaviWithInternetActivity.this, message, Toast.LENGTH_LONG).show();
+			//String message = String.format("New Location \n Longitude: %1$s \n Latitude: %2$s", location.getLongitude(), location.getLatitude());
+			//Toast.makeText(NaviWithInternetActivity.this, message, Toast.LENGTH_LONG).show();
+			updateWithNewLocation(location);
 		}
-
+		
 		public void onStatusChanged(String s, int i, Bundle b) {
-			Toast.makeText(NaviWithInternetActivity.this, "Provider status changed", Toast.LENGTH_LONG).show();
 		}
-
+		
 		public void onProviderDisabled(String s) {
 			Toast.makeText(NaviWithInternetActivity.this, "Provider disabled by the user. GPS turned off", Toast.LENGTH_LONG).show();
+			updateWithNewLocation(null);
 		}
-
+		
 		public void onProviderEnabled(String s) {
 			Toast.makeText(NaviWithInternetActivity.this, "Provider enabled by the user. GPS turned on", Toast.LENGTH_LONG).show();
 		}
-
+	};
+	
+	private void updateWithNewLocation(Location location) {
+		String latLongString = "";
+		if (location != null) {
+			double lat = location.getLatitude();
+			double lng = location.getLongitude();
+			latLongString = "Lat:" + lat + "\nLong:" + lng;
+		} else {
+			latLongString = "No location found";
+		}
 	}
-
+	
 	public class ReverseGeocodeLookupTask extends AsyncTask<Void, Void, String> {
-
+		
 		private ProgressDialog progressDialog;
-
+		
 		@Override
 		protected void onPreExecute() {
 			this.progressDialog = ProgressDialog.show(NaviWithInternetActivity.this, "Please wait...contacting Google!", // title
@@ -180,21 +190,21 @@ public class NaviWithInternetActivity extends Activity {
 					true // indeterminate
 			);
 		}
-
-		//		@Override
-		//		protected GeoCodeResult doInBackground(Void... params) {
-		//			if (targetLocation != null) {
-		//				geoCodeResult = geoCoder.reverseGeoCode(targetLocation.getLatitude(), targetLocation.getLongitude());
-		//			}
-		//			return geoCodeResult;
-		//		}
-
-		//		@Override
-		//		protected void onPostExecute(GeoCodeResult result) {
-		//			this.progressDialog.cancel();
-		//			// Toast.makeText(NaviWithInternetActivity.this, result.toString(), Toast.LENGTH_LONG).show();
-		//		}
-
+		
+		// @Override
+		// protected GeoCodeResult doInBackground(Void... params) {
+		// if (targetLocation != null) {
+		// geoCodeResult = geoCoder.reverseGeoCode(targetLocation.getLatitude(), targetLocation.getLongitude());
+		// }
+		// return geoCodeResult;
+		// }
+		
+		// @Override
+		// protected void onPostExecute(GeoCodeResult result) {
+		// this.progressDialog.cancel();
+		// // Toast.makeText(NaviWithInternetActivity.this, result.toString(), Toast.LENGTH_LONG).show();
+		// }
+		
 		@Override
 		protected String doInBackground(Void... params) {
 			geoCodeResult = null;
@@ -203,13 +213,13 @@ public class NaviWithInternetActivity extends Activity {
 			}
 			return geoCodeResult;
 		}
-
+		
 		@Override
 		protected void onPostExecute(String result) {
 			this.progressDialog.cancel();
 			// Toast.makeText(NaviWithInternetActivity.this, result.toString(), Toast.LENGTH_LONG).show();
 		}
-
+		
 	}
-
+	
 }
