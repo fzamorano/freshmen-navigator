@@ -15,14 +15,14 @@ import com.piq.erstieNavi.model.Building;
 import com.piq.erstieNavi.services.BuildingsManager;
 
 public class NaviPointsActivity extends Activity {
-
+	
 	public void onCreate(Bundle savedInstanceState) {
-
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.navi_points);
-
+		
 	}
-
+	
 	public void save(View v) {
 		EditText abbrevE = (EditText) findViewById(R.id.abbrevE);
 		EditText longiE = (EditText) findViewById(R.id.longiE);
@@ -35,45 +35,45 @@ public class NaviPointsActivity extends Activity {
 			Intent i = new Intent(v.getContext(), MainActivity.class);
 			startActivity(i);
 		} else {
-			toastL("Not every field was filled. Please fill every Field and try again! Thanks.");
+			toastL("Not every field was filled. Please fill every field and try again! Thanks.");
 		}
 	}
-
+	
 	public void toastL(String msg) {
 		Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
 	} // end toast
-
+	
 	public void receiveLocation(View v) {
-		//		getCurrentLocation();
-		//		performReverseGeocodingInBackground();
-		//		while (geoCodeResult == null) {
-		//		}
-		//		Geocoder geocoder;
-		//		String bestProvider;
-		//		List<Address> user = null;
+		// getCurrentLocation();
+		// performReverseGeocodingInBackground();
+		// while (geoCodeResult == null) {
+		// }
+		// Geocoder geocoder;
+		// String bestProvider;
+		// List<Address> user = null;
 		double lat = 0;
 		double lng = 0;
-
-		//		LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		
+		// LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		//
-		//		Criteria criteria = new Criteria();
-		//		bestProvider = lm.getBestProvider(criteria, false);
-		//		Location location = lm.getLastKnownLocation(bestProvider);
+		// Criteria criteria = new Criteria();
+		// bestProvider = lm.getBestProvider(criteria, false);
+		// Location location = lm.getLastKnownLocation(bestProvider);
 		//
-		//		if (location == null) {
-		//			toastL("Location Not found");
-		//		} else {
-		//			geocoder = new Geocoder(this);
-		//			try {
-		//				user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-		//				lat = (double) user.get(0).getLatitude();
-		//				lng = (double) user.get(0).getLongitude();
-		//				System.out.println(" DDD lat: " + lat + ",  longitude: " + lng);
+		// if (location == null) {
+		// toastL("Location Not found");
+		// } else {
+		// geocoder = new Geocoder(this);
+		// try {
+		// user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+		// lat = (double) user.get(0).getLatitude();
+		// lng = (double) user.get(0).getLongitude();
+		// System.out.println(" DDD lat: " + lat + ",  longitude: " + lng);
 		//
-		//			} catch (Exception e) {
-		//				e.printStackTrace();
-		//			}
-		//		}
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+		// }
 		LocationManager locManager;
 		locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 500.0f, locationListener);
@@ -87,23 +87,23 @@ public class NaviPointsActivity extends Activity {
 		longiE.setText("" + lat);
 		latE.setText("" + lng);
 	}
-
+	
 	private final LocationListener locationListener = new LocationListener() {
 		public void onLocationChanged(Location location) {
 			updateWithNewLocation(location);
 		}
-
+		
 		public void onProviderDisabled(String provider) {
 			updateWithNewLocation(null);
 		}
-
+		
 		public void onProviderEnabled(String provider) {
 		}
-
+		
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 		}
 	};
-
+	
 	private void updateWithNewLocation(Location location) {
 		String latLongString = "";
 		if (location != null) {

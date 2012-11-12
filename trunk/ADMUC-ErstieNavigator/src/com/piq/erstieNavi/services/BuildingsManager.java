@@ -43,6 +43,7 @@ public class BuildingsManager {
 
 	// http://itouchmap.com/latlong.html
 	// TODO maybe write extraprogramm to create xml-file
+	//String name, String abbrev, double latitude, double longitude
 	public void initAllBuildings() {
 		buildingsList.add(new Building("Hörsaalzentrum", "HSZ", 51.028906, 13.730013));
 		buildingsList.add(new Building("Neue Mensa", "Neue Mensa", 51.028947, 13.731827));

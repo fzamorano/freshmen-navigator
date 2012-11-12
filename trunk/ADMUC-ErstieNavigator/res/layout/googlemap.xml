@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
 
     <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,16 +16,27 @@
             android:id="@+id/mapview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:apiKey="0hQTV9_MVtDEIiR84XTrURmjOmXRensLJl92j_w"
+            android:apiKey="@string/GOOGLE_MAPS_API_KEY"
             android:clickable="true" />
-        
-        
-        <ImageView
-            android:id="@+id/navi_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/navi_arrow" />
 
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/navi_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/navi_arrow" />
+
+            <ImageView
+                android:id="@+id/navi_arrow2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/navi_arrow2" />
+        </LinearLayout>
     </FrameLayout>
 
 </ScrollView> <!-- keytool -list -alias androiddebugkey -keystore "C:\Users\Piq\.android\debug.keystore" -storepass android -keypass android ....generates md5hash for apikey -->

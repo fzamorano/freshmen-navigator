@@ -14,6 +14,14 @@
     <string name="rbnetwork">Use network proivder for tracking</string>
     <string name="rbpassive">Use passive proivder for tracking</string>
     
-    <string name="GOOGLE_MAPS_API_KEY">0hQTV9_MVtDEIiR84XTrURmjOmXRensLJl92j_w</string>
+   <!--  <string name="GOOGLE_MAPS_API_KEY">0hQTV9_MVtDGNi0O61gwzAObkcV2Hiu0EtaEbww</string>	-->	<!-- robu -->
+   <string name="GOOGLE_MAPS_API_KEY">0hQTV9_MVtDEIiR84XTrURmjOmXRensLJl92j_w</string> <!-- dd -->
+   
+   <!-- use this command to generate a map-api-key
+   
+   keytool -v -list -alias androiddebugkey -keystore "C:\Dokumente und Einstellungen\Besitzer\.android\debug.keystore" -storepass android -keypass android
+    
+    enter your MD5 here: https://developers.google.com/android/maps-api-signup
+    --> 
     
 </resources>
