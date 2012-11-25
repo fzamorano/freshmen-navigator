@@ -86,6 +86,8 @@ public class NaviWithInternetActivity extends Activity {
 		// request current location and set label with coords and address
 		if (from.equals("Use Current Location")) {
 			getCurrentLocation();
+			fromL.setLatitude(targetLocation.getLatitude());
+			fromL.setLongitude(targetLocation.getLongitude());
 			performReverseGeocodingInBackground();
 			while (geoCodeResult == null) {
 			}
@@ -145,6 +147,12 @@ public class NaviWithInternetActivity extends Activity {
 	
 	protected void getCurrentLocation() {
 		targetLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		Location l = new Location(LocationManager.GPS_PROVIDER);	
+		int tmp = (int)(targetLocation.getLatitude()*1000000);
+		l.setLatitude((double)tmp/1000000);
+		tmp = (int)(targetLocation.getLongitude()*1000000);
+		l.setLongitude((double)tmp/1000000);
+		targetLocation = l;
 	}
 	
 	private final LocationListener locationListener = new LocationListener() {

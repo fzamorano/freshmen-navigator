@@ -28,9 +28,9 @@
         </activity>
         <activity android:name=".NaviWithInternetActivity" />
         <activity android:name=".NaviWithoutInternetActivity" />
-        <activity android:name=".GoogleMapsActivity" />
-		<activity android:name=".SettingsActivity" />
+        <activity android:name=".GoogleMapsActivity" />        
 		<activity android:name=".NaviPointsActivity" />
+		<activity android:name=".SettingsActivity" />
     </application>
 
 </manifest>
