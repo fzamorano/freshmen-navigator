@@ -1,8 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        	android:layout_width="fill_parent"
+    		android:layout_height="fill_parent">
+<LinearLayout 
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_weight="1" 
-    >
+    android:layout_height="wrap_content">
+    
+    <TextView
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:text="@string/start" />
+    	
+    <Spinner
+        android:id="@+id/spinFrom"
+        android:drawSelectorOnTop="true"
+        android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"/>
+    
+    <TextView
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:text="@string/ziel" />
+    	
+    <Spinner
+        android:id="@+id/spinTo"
+        android:drawSelectorOnTop="true"
+        android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"/>
+    
+     <RadioGroup
+        android:id="@+id/radioG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+ 
+        <RadioButton
+            android:id="@+id/radioInet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_winet"
+            android:checked="true" />
+ 
+        <RadioButton
+            android:id="@+id/radioCompass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_woinet" />
+ 
+    </RadioGroup>
+    
+     <Button 
+         android:id="@+id/startButton"
+         android:layout_width="fill_parent"
+    	 android:layout_height="wrap_content"
+    	 android:text="@string/start" />
+     
+     <Button 
+         android:id="@+id/addNaviPointButton"
+         android:layout_width="fill_parent"
+    	 android:layout_height="wrap_content"
+    	 android:text="@string/addNP" />
+    
+       
 </LinearLayout>
+</ScrollView>
