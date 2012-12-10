@@ -32,7 +32,7 @@ public class NaviPointsActivity extends Activity {
 			Building b = new Building(nameE.getText().toString(), abbrevE.getText().toString(), Double.parseDouble(latE.getText().toString()), Double.parseDouble(longiE.getText().toString()));
 			BuildingsManager.getInstance().addBuilding(b);
 			toastL("New Point added: " + b.toString());
-			Intent i = new Intent(v.getContext(), MainActivity.class);
+			Intent i = new Intent(v.getContext(), Main.class);
 			startActivity(i);
 		} else {
 			toastL("Not every field was filled. Please fill every field and try again! Thanks.");

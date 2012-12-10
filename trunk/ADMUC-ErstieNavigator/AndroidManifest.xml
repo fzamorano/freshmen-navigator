@@ -18,16 +18,27 @@
         android:label="@string/app_name" >
         <uses-library android:name="com.google.android.maps"/>
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:name=".LogoActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Main"
+            android:exported="false" 
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.piq.startMain" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".NaviWithInternetActivity" />
-        <activity android:name=".NaviWithoutInternetActivity" />
+        <activity android:name=".CompassActivity" />
         <activity android:name=".GoogleMapsActivity" />        
 		<activity android:name=".NaviPointsActivity" />
 		<activity android:name=".SettingsActivity" />

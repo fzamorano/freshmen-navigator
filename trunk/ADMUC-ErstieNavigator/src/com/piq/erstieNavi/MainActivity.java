@@ -90,11 +90,11 @@ public class MainActivity extends Activity {
 		}
 
 		TextView tv = new TextView(this);
-		tv.setText("Please select your way, you want to navigate with...");
+		tv.setText("Please select your way, you want to navigate with");
 		ll.addView(tv);
 
 		Button naviWithInternetButton = new Button(this);
-		naviWithInternetButton.setText(R.string.start_winet);
+		naviWithInternetButton.setText(R.string.radio_winet);
 		naviWithInternetButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (AppStatus.getInstance(getApplicationContext()).haveGPSConnection()) {
@@ -115,7 +115,7 @@ public class MainActivity extends Activity {
 		ll.addView(naviWithInternetButton);
 
 		Button naviWithoutInternetButton = new Button(this);
-		naviWithoutInternetButton.setText(R.string.start_woinet);
+		naviWithoutInternetButton.setText(R.string.radio_woinet);
 		naviWithoutInternetButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (AppStatus.getInstance(getApplicationContext()).haveGPSConnection()) {
