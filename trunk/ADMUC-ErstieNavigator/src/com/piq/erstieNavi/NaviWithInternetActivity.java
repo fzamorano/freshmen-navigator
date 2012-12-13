@@ -146,11 +146,19 @@ public class NaviWithInternetActivity extends Activity {
 	}
 	
 	protected void getCurrentLocation() {
-		if(targetLocation != null) {
+/*		if(targetLocation != null) {
 		targetLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 	} else {
 		targetLocation = new Location(LocationManager.GPS_PROVIDER);	
 	}
+		
+		Location l = new Location(LocationManager.GPS_PROVIDER);	
+		int tmp = (int)(targetLocation.getLatitude()*1000000);
+		l.setLatitude((double)tmp/1000000);
+		tmp = (int)(targetLocation.getLongitude()*1000000);
+		l.setLongitude((double)tmp/1000000);
+		targetLocation = l; */
+		targetLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		Location l = new Location(LocationManager.GPS_PROVIDER);	
 		int tmp = (int)(targetLocation.getLatitude()*1000000);
 		l.setLatitude((double)tmp/1000000);

@@ -70,10 +70,20 @@ public class CompassActivity extends Activity
         setContentView(R.layout.navi_wo_inet);
         
       final Bundle data = getIntent().getExtras();
+      
+		locationService = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		locationService.requestLocationUpdates(LocationManager.GPS_PROVIDER, MINTIME, MINDISTANCE, locationListener);
         
         if(data.getString("from").equals("Use Current Location"))
 		{
         	currentLocation = locationService.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+ 
+    		Location l = new Location(LocationManager.GPS_PROVIDER);	
+    		int tmp = (int)(currentLocation.getLatitude()*1000000);
+    		l.setLatitude((double)tmp/1000000);
+    		tmp = (int)(currentLocation.getLongitude()*1000000);
+    		l.setLongitude((double)tmp/1000000);
+    		currentLocation = l;
 		}
 		else
 		{
@@ -89,8 +99,7 @@ public class CompassActivity extends Activity
 		sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 		sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 
-		locationService = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		locationService.requestLocationUpdates(LocationManager.GPS_PROVIDER, MINTIME, MINDISTANCE, locationListener);
+
 
 		listener = new SensorEventListener() 
 		{
