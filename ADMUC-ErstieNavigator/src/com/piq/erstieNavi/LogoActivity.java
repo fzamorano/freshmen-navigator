@@ -29,7 +29,7 @@ public class LogoActivity extends Activity
 					
 					while (timer< ms)
 					{
-						sleep(100);
+						sleep(50);
 						timer += 100;
 					}
 					//startActivity(new Intent("com.piq.startMain"));
