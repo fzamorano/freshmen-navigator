@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -35,10 +37,8 @@ import com.piq.erstieNavi.services.ReceiveDirections;
 public class GoogleMapsActivity extends MapActivity {
 	
 	private Bundle extras = null;
-	Location locFrom = new Location(LocationManager.GPS_PROVIDER);
-	Location locTo = new Location(LocationManager.GPS_PROVIDER);
-	private static final float MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 5f; // in Meters
-	private static final long MINIMUM_TIME_BETWEEN_UPDATES = 1000L; // in Milliseconds
+	Location locFrom;
+	Location locTo;
 	protected LocationManager locationManager;
 	private Location currentLocation;
 	private ArrayList<GeoPoint> geoItems;
@@ -46,10 +46,32 @@ public class GoogleMapsActivity extends MapActivity {
 	private MyItemizedOverlay itemizedOverlayC;
 	private MyOverlayItem overlayitemC;
 	private MapView mapView;
+	private static float MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 5f; // in Meters
+	private static long MINIMUM_TIME_BETWEEN_UPDATES = 1000L; // in Milliseconds
+	private static String LOCATIONIZE_METHOD;
+	private static String PROVIDER;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = Float.parseFloat(preferences.getString("update_meters", "5"));
+		MINIMUM_TIME_BETWEEN_UPDATES = Long.parseLong(preferences.getString("update_seconds", "1000"));
+		LOCATIONIZE_METHOD = preferences.getString("locationizeMethod", "gps");
+		if(LOCATIONIZE_METHOD.equals("gps")) {
+			PROVIDER = LocationManager.GPS_PROVIDER;
+		}
+		if(LOCATIONIZE_METHOD.equals("network")) {
+			PROVIDER = LocationManager.NETWORK_PROVIDER;
+		}
+		if(LOCATIONIZE_METHOD.equals("passive")) {
+			PROVIDER = LocationManager.PASSIVE_PROVIDER;
+		}
+		
+		Location locFrom = new Location(PROVIDER);
+		Location locTo = new Location(PROVIDER);
+		
 		extras = getIntent().getExtras();
 		if (extras != null) {
 			locFrom.setLongitude(extras.getDouble("fromLocationLong"));
@@ -62,7 +84,7 @@ public class GoogleMapsActivity extends MapActivity {
 		Building to = BuildingsManager.getInstance().getRequestedBuilding(locTo);
 		
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MINIMUM_TIME_BETWEEN_UPDATES, MINIMUM_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
+		locationManager.requestLocationUpdates(PROVIDER, MINIMUM_TIME_BETWEEN_UPDATES, MINIMUM_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
 		
 		setContentView(R.layout.googlemap);
 		
@@ -193,7 +215,7 @@ public class GoogleMapsActivity extends MapActivity {
 	}
 	
 	protected void getCurrentLocation() {
-		currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		currentLocation = locationManager.getLastKnownLocation(PROVIDER);
 		if(currentLocation == null) {
 			currentLocation = locFrom;
 		}			

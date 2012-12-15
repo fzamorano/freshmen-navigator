@@ -15,6 +15,18 @@
             android:summary="This preference allows to select an navigation-method for your tracking"
             android:title="Choose Navi-Method"
             android:onClick="onClickList" />
+         <EditTextPreference
+            android:summary="Please enter your desired update-interval in meters"
+            android:key="update_meters"
+            android:title="update-interval in meters" 
+            android:dialogTitle="Enter your update-interval in meters">
+        </EditTextPreference>
+         <EditTextPreference
+            android:summary="Please enter your desired update-interval in seconds"
+            android:key="update_seconds"
+            android:title="update-interval in seconds" 
+            android:dialogTitle="Enter your update-interval in seconds">
+        </EditTextPreference>
     </PreferenceCategory>
 
 </PreferenceScreen>
