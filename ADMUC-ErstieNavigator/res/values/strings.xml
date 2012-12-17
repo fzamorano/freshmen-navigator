@@ -3,13 +3,25 @@
     <string name="hello">Hello World, Freshmen-Activity!</string>
     <string name="app_name">Freshmen-Navigator</string>
     
-    
+    <!-- Main --> 
     <string name="start">START</string>
     <string name="ziel">DESTINATION</string> 
     <string name="radio_winet">GoogleMap(Internet+GPS)</string>
     <string name="radio_woinet">Compass(GPS)</string>
     <string name="addNP">ADD NAVIPOINT</string>
+    
+    <!-- NaviPoints --> 
+    <string name="caption">Create a Navi-Point:</string>
+    <string name="name">NAME</string>
+    <string name="abbrev">ABBREVIATION</string>
+    <string name="location">Receive Location</string>
+    <string name="longi">LONGITUDE</string>
+    <string name="lat">LATIDUDE</string>
+    <string name="save">SAVE</string>
+    
+    
    
+    <!-- Menue --> 
     <string name="menu_backtohome">Back to Homescreen</string>
     <string name="menu_exit">Exit</string>
     <string name="menu_settings">Settings</string>

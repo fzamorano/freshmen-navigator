@@ -3,130 +3,97 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
+>
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create your own Navi-Point"
+        android:text="@string/caption"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:gravity="center_horizontal" />
 
-        <LinearLayout
+    
+     <TextView
+         android:id="@+id/name"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/name"
+         android:textAppearance="?android:attr/textAppearanceSmall"
+         android:layout_marginTop="15dp" />
+
+      <EditText
+          android:id="@+id/nameE"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="Name"
+          android:inputType="text" >
+      </EditText>
+
+      
+      <TextView
+          android:id="@+id/abbrev"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/abbrev"
+          android:textAppearance="?android:attr/textAppearanceSmall" />
+
+      <EditText
+          android:id="@+id/abbrevE"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="Abbreviation"
+          android:inputType="text" >
+      </EditText>
+
+      
+      <CheckBox
+        android:id="@+id/locCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/location"
+      />
+
+      
+      <TextView
+          android:id="@+id/longi"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/longi"
+          android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <EditText
+            android:id="@+id/longiE"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-             android:layout_marginTop="15dp" >
+            android:hint="Longitude"
+            android:inputType="numberDecimal" >
+        </EditText>
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Name of Point"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <EditText
-                android:id="@+id/nameE"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:hint="Name"
-                android:inputType="text" >
-            </EditText>
+        <TextView
+            android:id="@+id/lat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lat"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        </LinearLayout>
+        <EditText
+            android:id="@+id/latE"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Latitude"
+            android:inputType="numberDecimal" >
+        </EditText>
+
         
-          <LinearLayout
+        <Button
+            android:id="@+id/save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-             android:layout_marginTop="15dp" >
-
-            <TextView
-                android:id="@+id/abbrev"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Abbreviation"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <EditText
-                android:id="@+id/abbrevE"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:hint="Abbreviation"
-                android:inputType="text" >
-            </EditText>
-
-        </LinearLayout>
-
-          <TextView
-              android:id="@+id/textView1"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="Enter your Longitude/Latitude manually or press 'Receive Location'"
-              android:gravity="center_horizontal" />
-        
-           <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-             android:layout_marginTop="15dp" >
-
-            <TextView
-                android:id="@+id/longi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Longitude"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <EditText
-                android:id="@+id/longiE"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:hint="Longitude"
-                android:inputType="numberDecimal" >
-            </EditText>
-
-        </LinearLayout>
-        
-           <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-             android:layout_marginTop="15dp" >
-
-            <TextView
-                android:id="@+id/lat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Latitude"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <EditText
-                android:id="@+id/latE"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:hint="Latitude"
-                android:inputType="numberDecimal" >
-            </EditText>
-
-    </LinearLayout>
-
-                <Button
-                    android:id="@+id/recv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Receive Location" 
-                    android:layout_marginTop="15dp"
-                    android:onClick="receiveLocation"/>
-
-                <Button
-                    android:id="@+id/save"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Save"
-                    android:layout_marginTop="15dp"
-                    android:onClick="save"  />
+            android:text="@string/save"
+            android:layout_marginTop="15dp"
+            android:onClick="save"  />
 
 
 </LinearLayout>
