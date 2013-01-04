@@ -69,8 +69,8 @@ public class GoogleMapsActivity extends MapActivity {
 			PROVIDER = LocationManager.PASSIVE_PROVIDER;
 		}
 		
-		Location locFrom = new Location(PROVIDER);
-		Location locTo = new Location(PROVIDER);
+		locFrom = new Location(PROVIDER);
+		locTo = new Location(PROVIDER);
 		
 		extras = getIntent().getExtras();
 		if (extras != null) {
