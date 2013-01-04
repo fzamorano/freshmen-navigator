@@ -4,10 +4,12 @@
     <string name="app_name">Freshmen-Navigator</string>
     
     <!-- Main --> 
-    <string name="start">START</string>
-    <string name="ziel">DESTINATION</string> 
+    <string name="start">Navigate from</string>
+    <string name="startNavi">Navigate</string>
+    <string name="ziel">Navigate to</string> 
     <string name="radio_winet">GoogleMap(Internet+GPS)</string>
     <string name="radio_woinet">Compass(GPS)</string>
+    <string name="gotoMap">Get view in Google-Map</string>
     <string name="addNP">ADD NAVIPOINT</string>
     
     <!-- NaviPoints --> 
@@ -18,6 +20,7 @@
     <string name="longi">LONGITUDE</string>
     <string name="lat">LATIDUDE</string>
     <string name="save">SAVE</string>
+    
     
     
    
