@@ -2,6 +2,7 @@ package com.piq.erstieNavi.services;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.location.Location;
 import android.os.Environment;
@@ -49,6 +50,20 @@ public class BuildingsManager {
 		buildingsList.add(new Building("Neue Mensa", "Neue Mensa", 51.028947, 13.731827));
 		buildingsList.add(new Building("Informatik-Fakultät", "INF", 51.02587, 13.722643));
 		buildingsList.add(new Building("Willersbau", "WIL", 51.029035, 13.733747));
+		
+		buildingsList.add(new Building("Beyer-Bau", "BEY", 51.029722, 13.729444));
+		buildingsList.add(new Building("Fritz-Foerster-Bau", "FOE", 51.02748, 13.728632));
+		buildingsList.add(new Building("Alte Mensa", "Alte Mensa", 51.027015, 13.72653));
+		buildingsList.add(new Building("Andreas-Schubert-Bau", "ASB", 51.028895, 13.741087));
+		buildingsList.add(new Building("Barkhausen-Bau", "BAR", 51.027084, 13.724613));
+		buildingsList.add(new Building("von Gerber-Bau", "GER", 51.028147, 13.731440));
+		buildingsList.add(new Building("Georg Schumann-Bau", "SCH", 51.029538, 13.722460));
+		buildingsList.add(new Building("Binder-Bau", "BIN", 51.027281, 13.726329));
+		buildingsList.add(new Building("Görges-Bau", "GÖR", 51.027873, 13.725965));
+		buildingsList.add(new Building("Merkel-Bau", "MER", 51.028155, 13.724847));
+		
+		Collections.sort(buildingsList);
+
 	}
 
 	public Building getRequestedBuilding(String abbrev) {
@@ -79,6 +94,7 @@ public class BuildingsManager {
 
 	public void addBuilding(Building building) {
 		buildingsList.add(building);
+		Collections.sort(buildingsList);
 		new XMLBuilder().saveItems(buildingsList);
 	}
 

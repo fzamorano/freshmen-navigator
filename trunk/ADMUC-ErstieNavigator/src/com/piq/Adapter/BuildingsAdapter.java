@@ -1,6 +1,7 @@
 package com.piq.Adapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.piq.erstieNavi.model.Building;
@@ -93,10 +94,12 @@ public class BuildingsAdapter implements SpinnerAdapter
 	
 	private void transform(List<Building> items)
 	{
+		
 		for(Building b: items)
 		{
 			this.items.add(b);
 		}
+		Collections.sort(items);
 	}
 
 }

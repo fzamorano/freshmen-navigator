@@ -1,6 +1,6 @@
 package com.piq.erstieNavi.model;
 
-public class Building {
+public class Building implements Comparable<Building> {
 
 	private double longitude;
 	private double latitude;
@@ -51,6 +51,11 @@ public class Building {
 	public String toString() {
 		System.out.println("Name: " + name + " Abbrev: " + abbrev + " Lat: " + latitude + " Long: " + longitude);
 		return "Name: " + name + " Abbrev: " + abbrev + " Lat: " + latitude + " Long: " + longitude;
+	}
+
+	public int compareTo(Building b) {
+		
+		return this.getAbbrev().compareTo(b.getAbbrev());
 	}
 
 }
