@@ -44,6 +44,7 @@
         android:layout_marginBottom="10dp"
         android:layout_weight="1"
         android:background="@xml/myroundrectangle"
-        android:text="@string/gotoMap" />
+        android:text="@string/gotoMap"
+            android:textColor="#FFFFFF"  />
 
 </LinearLayout>

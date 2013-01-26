@@ -88,6 +88,7 @@
         android:layout_marginTop="15dp"
         android:background="@xml/myroundrectangle"
         android:onClick="save"
-        android:text="@string/save" />
+        android:text="@string/save"
+            android:textColor="#FFFFFF"  />
 
 </LinearLayout>

@@ -8,19 +8,19 @@ import com.piq.erstieNavi.googlemaps.Parser;
 import com.piq.erstieNavi.googlemaps.Route;
 
 public class ReceiveDirections extends AsyncTask<GeoPoint, Integer, Route> {
-
+	
 	protected void onProgressUpdate(Integer... progress) {
 	}
-
+	
 	protected void onPostExecute(Route result) {
-
+		
 	}
-
+	
 	@Override
 	protected Route doInBackground(GeoPoint... params) {
 		return directions(params[0], params[1]);
 	}
-
+	
 	private Route directions(final GeoPoint start, final GeoPoint dest) {
 		Parser parser;
 		String jsonURL = "http://maps.google.com/maps/api/directions/json?";
