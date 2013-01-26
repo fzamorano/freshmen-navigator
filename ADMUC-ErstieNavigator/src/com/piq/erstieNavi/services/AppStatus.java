@@ -7,37 +7,37 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 public class AppStatus {
-
+	
 	private static AppStatus instance = new AppStatus();
 	static Context context;
 	ConnectivityManager connectivityManager;
 	NetworkInfo wifiInfo, mobileInfo;
 	boolean connected = false;
-
+	
 	public static AppStatus getInstance(Context ctx) {
 		context = ctx;
 		return instance;
 	}
-
+	
 	public boolean isOnline(Context con) {
 		try {
 			connectivityManager = (ConnectivityManager) con.getSystemService(Context.CONNECTIVITY_SERVICE);
-
+			
 			NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 			connected = networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected();
 			return connected;
-
+			
 		} catch (Exception e) {
 			System.out.println("CheckConnectivity Exception: " + e.getMessage());
 			Log.v("connectivity", e.toString());
 		}
 		return connected;
 	}
-
+	
 	public boolean haveNetworkConnection() {
 		boolean haveConnectedWifi = false;
 		boolean haveConnectedMobile = false;
-
+		
 		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo[] netInfo = cm.getAllNetworkInfo();
 		for (NetworkInfo ni : netInfo) {
@@ -50,7 +50,7 @@ public class AppStatus {
 		}
 		return haveConnectedWifi || haveConnectedMobile;
 	}
-
+	
 	public boolean haveGPSConnection() {
 		LocationManager locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
 		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -59,5 +59,5 @@ public class AppStatus {
 			return false;
 		}
 	}
-
+	
 }

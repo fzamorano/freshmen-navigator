@@ -28,7 +28,7 @@ public class RouteOverlay extends Overlay {
 	private final Point p;
 	/** Paint for path. **/
 	private final Paint paint;
-
+	
 	/**
 	 * Public constructor.
 	 * 
@@ -37,7 +37,7 @@ public class RouteOverlay extends Overlay {
 	 * @param defaultColour
 	 *            default colour to draw route in.
 	 */
-
+	
 	public RouteOverlay(final Route route, final int defaultColour) {
 		super();
 		routePoints = route.getPoints();
@@ -46,21 +46,21 @@ public class RouteOverlay extends Overlay {
 		p = new Point();
 		paint = new Paint();
 	}
-
+	
 	@Override
 	public final void draw(final Canvas c, final MapView mv, final boolean shadow) {
 		super.draw(c, mv, shadow);
-
+		
 		paint.setColor(colour);
 		paint.setAlpha(ALPHA);
 		paint.setAntiAlias(true);
 		paint.setStrokeWidth(STROKE);
 		paint.setStyle(Paint.Style.STROKE);
-
+		
 		redrawPath(mv);
 		c.drawPath(path, paint);
 	}
-
+	
 	/**
 	 * Set the colour to draw this route's overlay with.
 	 * 
@@ -70,21 +70,21 @@ public class RouteOverlay extends Overlay {
 	public final void setColour(final int c) {
 		colour = c;
 	}
-
+	
 	/**
 	 * Clear the route overlay.
 	 */
 	public final void clear() {
 		routePoints.clear();
 	}
-
+	
 	/**
 	 * Recalculate the path accounting for changes to the projection and routePoints.
 	 * 
 	 * @param mv
 	 *            MapView the path is drawn to.
 	 */
-
+	
 	private void redrawPath(final MapView mv) {
 		final Projection prj = mv.getProjection();
 		path.rewind();
@@ -97,5 +97,5 @@ public class RouteOverlay extends Overlay {
 		}
 		path.setLastPoint(p.x, p.y);
 	}
-
+	
 }

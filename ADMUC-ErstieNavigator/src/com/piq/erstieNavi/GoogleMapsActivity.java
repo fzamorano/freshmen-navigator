@@ -17,6 +17,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -34,7 +35,7 @@ import com.piq.erstieNavi.services.BuildingsManager;
 import com.piq.erstieNavi.services.Compass;
 import com.piq.erstieNavi.services.ReceiveDirections;
 
-public class GoogleMapsActivity extends MapActivity {
+public class GoogleMapsActivity extends MapActivity implements LocationListener {
 	
 	private Bundle extras = null;
 	Location locFrom;
@@ -46,8 +47,8 @@ public class GoogleMapsActivity extends MapActivity {
 	private MyItemizedOverlay itemizedOverlayC;
 	private MyOverlayItem overlayitemC;
 	private MapView mapView;
-	private static float MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 5f; // in Meters
-	private static long MINIMUM_TIME_BETWEEN_UPDATES = 1000L; // in Milliseconds
+	private static float MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 1f; // in Meters
+	private static long MINIMUM_TIME_BETWEEN_UPDATES = 100L; // in Milliseconds
 	private static String LOCATIONIZE_METHOD;
 	private static String PROVIDER;
 	
@@ -56,16 +57,16 @@ public class GoogleMapsActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 		
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = Float.parseFloat(preferences.getString("update_meters", "5"));
-		MINIMUM_TIME_BETWEEN_UPDATES = Long.parseLong(preferences.getString("update_seconds", "1000"));
+		MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = Float.parseFloat(preferences.getString("update_meters", "2"));
+		MINIMUM_TIME_BETWEEN_UPDATES = Long.parseLong(preferences.getString("update_seconds", "100"));
 		LOCATIONIZE_METHOD = preferences.getString("locationizeMethod", "gps");
-		if(LOCATIONIZE_METHOD.equals("gps")) {
+		if (LOCATIONIZE_METHOD.equals("gps")) {
 			PROVIDER = LocationManager.GPS_PROVIDER;
 		}
-		if(LOCATIONIZE_METHOD.equals("network")) {
+		if (LOCATIONIZE_METHOD.equals("network")) {
 			PROVIDER = LocationManager.NETWORK_PROVIDER;
 		}
-		if(LOCATIONIZE_METHOD.equals("passive")) {
+		if (LOCATIONIZE_METHOD.equals("passive")) {
 			PROVIDER = LocationManager.PASSIVE_PROVIDER;
 		}
 		
@@ -84,7 +85,7 @@ public class GoogleMapsActivity extends MapActivity {
 		Building to = BuildingsManager.getInstance().getRequestedBuilding(locTo);
 		
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(PROVIDER, MINIMUM_TIME_BETWEEN_UPDATES, MINIMUM_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
+		locationManager.requestLocationUpdates(PROVIDER, MINIMUM_TIME_BETWEEN_UPDATES, MINIMUM_DISTANCE_CHANGE_FOR_UPDATES, this);
 		
 		setContentView(R.layout.googlemap);
 		
@@ -104,7 +105,7 @@ public class GoogleMapsActivity extends MapActivity {
 		
 		getCurrentLocation();
 		Drawable drawableC = this.getResources().getDrawable(R.drawable.current_point);
-		itemizedOverlayC = new MyItemizedOverlay(drawableC, this);		
+		itemizedOverlayC = new MyItemizedOverlay(drawableC, this);
 		GeoPoint currentPoint = new GeoPoint((int) (currentLocation.getLatitude() * 1E6), (int) (currentLocation.getLongitude() * 1E6));
 		overlayitemC = new MyOverlayItem(currentPoint, "You are here", "Your position");
 		
@@ -114,10 +115,8 @@ public class GoogleMapsActivity extends MapActivity {
 		try {
 			route = new ReceiveDirections().execute(fromPoint, toPoint).get();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		RouteOverlay routeOverlay = new RouteOverlay(route, Color.BLUE);
@@ -157,25 +156,20 @@ public class GoogleMapsActivity extends MapActivity {
 		mapView.getController().zoomToSpan((int) (Math.abs(maxLat - minLat) * fitFactor), (int) (Math.abs(maxLon - minLon) * fitFactor));
 		mapView.getController().animateTo(new GeoPoint((maxLat + minLat) / 2, (maxLon + minLon) / 2));
 		
+		Bundle data = getIntent().getExtras();
+		
+		TextView fromTV = (TextView) findViewById(R.id.locationFrom);
+		TextView toTV = (TextView) findViewById(R.id.locationTo);
+		TextView distance = (TextView) findViewById(R.id.distance);
+		
+		fromTV.setText("Navigating from " + data.getString("from"));
+		toTV.setText("Navigating to " + data.getString("to"));
+		distance.setText("Distance in km: " + com.piq.erstieNavi.services.Compass.getHaverSineDistance(currentLocation.getLatitude(), currentLocation.getLongitude(), locTo.getLatitude(), locTo.getLongitude()));
+		
 		createCompass();
 		update();
 		
 	}
-	
-//	private Handler handler = new Handler();
-//
-//	private Runnable refreshTask = new Runnable()
-//	{
-//	  public void run()
-//	  {
-//	    handler.removeCallbacks(this);
-//
-//	    mapView.postInvalidate();
-//
-//	    handler.postDelayed(this, MINIMUM_TIME_BETWEEN_UPDATES);
-//
-//	  }
-//	};
 	
 	private void createCompass() {
 		// fromlocation to tolocation
@@ -203,22 +197,46 @@ public class GoogleMapsActivity extends MapActivity {
 		
 		geoItems.remove(2);
 		geoItems.add(currentPoint);
-
+		
 		itemizedOverlayC.getmOverlays().remove(0);
 		itemizedOverlayC.addOverlay(overlayitemC);
-
+		
 		mapOverlaysList.add(itemizedOverlayC);
 		
 		mapView.postInvalidate();
-		//mapView.getController().scrollBy(1, 1);
-		//mapView.getController().scrollBy(-1, -1);
+		
+		TextView distance = (TextView) findViewById(R.id.distance);
+		distance.setText("Distance in km: " + com.piq.erstieNavi.services.Compass.getHaverSineDistance(currentLocation.getLatitude(), currentLocation.getLongitude(), locTo.getLatitude(), locTo.getLongitude()));
+		
+		// to fit the zoom of the map - see all geopoints of interets
+				int minLat = Integer.MAX_VALUE;
+				int maxLat = Integer.MIN_VALUE;
+				int minLon = Integer.MAX_VALUE;
+				int maxLon = Integer.MIN_VALUE;
+				
+				for (GeoPoint item : geoItems) {
+					int lat = item.getLatitudeE6();
+					int lon = item.getLongitudeE6();
+					
+					maxLat = Math.max(lat, maxLat);
+					minLat = Math.min(lat, minLat);
+					maxLon = Math.max(lon, maxLon);
+					minLon = Math.min(lon, minLon);
+				}
+				
+				double fitFactor = 1.0;
+				mapView.getController().zoomToSpan((int) (Math.abs(maxLat - minLat) * fitFactor), (int) (Math.abs(maxLon - minLon) * fitFactor));
+				mapView.getController().animateTo(new GeoPoint((maxLat + minLat) / 2, (maxLon + minLon) / 2));
+		
+		// mapView.getController().scrollBy(1, 1);
+		// mapView.getController().scrollBy(-1, -1);
 	}
 	
 	protected void getCurrentLocation() {
 		currentLocation = locationManager.getLastKnownLocation(PROVIDER);
-		if(currentLocation == null) {
+		if (currentLocation == null) {
 			currentLocation = locFrom;
-		}			
+		}
 	}
 	
 	private Route directions(final GeoPoint start, final GeoPoint dest) {
@@ -244,30 +262,34 @@ public class GoogleMapsActivity extends MapActivity {
 		return false;
 	}
 	
-	private final LocationListener locationListener = new LocationListener() {
-		
-		public void onLocationChanged(Location location) {
-			// String message = String.format("New Location \n Longitude: %1$s \n Latitude: %2$s", location.getLongitude(), location.getLatitude());
-			// Toast.makeText(GoogleMapsActivity.this, message, Toast.LENGTH_LONG).show();
-			updateWithNewLocation(location);
-			System.out.println("location changed");
-			update();
-		}
-		
-		public void onStatusChanged(String s, int i, Bundle b) {
-			//Toast.makeText(GoogleMapsActivity.this, "Provider status changed", Toast.LENGTH_LONG).show();
-		}
-		
-		public void onProviderDisabled(String s) {
-			Toast.makeText(GoogleMapsActivity.this, "Provider disabled by the user. GPS turned off", Toast.LENGTH_LONG).show();
-			updateWithNewLocation(null);
-		}
-		
-		public void onProviderEnabled(String s) {
-			Toast.makeText(GoogleMapsActivity.this, "Provider enabled by the user. GPS turned on", Toast.LENGTH_LONG).show();
-		}
-		
-	};
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		locationManager.requestLocationUpdates(PROVIDER, MINIMUM_TIME_BETWEEN_UPDATES, MINIMUM_DISTANCE_CHANGE_FOR_UPDATES, this);
+	}
+	
+	public void onLocationChanged(Location location) {
+		// String message = String.format("New Location \n Longitude: %1$s \n Latitude: %2$s", location.getLongitude(), location.getLatitude());
+		// Toast.makeText(GoogleMapsActivity.this, message, Toast.LENGTH_LONG).show();
+		updateWithNewLocation(location);
+		System.out.println("location changed");
+		Toast.makeText(getApplicationContext(), "LOCATION CHANGED", Toast.LENGTH_SHORT).show();
+		update();
+	}
+	
+	public void onStatusChanged(String s, int i, Bundle b) {
+		Toast.makeText(GoogleMapsActivity.this, "Provider status changed", Toast.LENGTH_LONG).show();
+	}
+	
+	public void onProviderDisabled(String s) {
+		Toast.makeText(GoogleMapsActivity.this, "Provider disabled by the user. GPS turned off", Toast.LENGTH_LONG).show();
+		updateWithNewLocation(null);
+	}
+	
+	public void onProviderEnabled(String s) {
+		Toast.makeText(GoogleMapsActivity.this, "Provider enabled by the user. GPS turned on", Toast.LENGTH_LONG).show();
+	}
 	
 	private void updateWithNewLocation(Location location) {
 		currentLocation = location;

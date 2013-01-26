@@ -5,73 +5,60 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
-public class LogoActivity extends Activity
-{
+public class LogoActivity extends Activity {
 	private final int ms = 5000;
 	private MediaPlayer player;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) 
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.logo);
 		
 		player = MediaPlayer.create(this, R.raw.intro);
 		player.start();
 		
-		Thread timer = new Thread()
-		{
-			public void run()
-			{
-				try
-				{
+		Thread timer = new Thread() {
+			public void run() {
+				try {
 					int timer = 0;
 					
-					while (timer< ms)
-					{
+					while (timer < ms) {
 						sleep(50);
 						timer += 100;
 					}
-					//startActivity(new Intent("com.piq.startMain"));
+					// startActivity(new Intent("com.piq.startMain"));
 					Intent i = new Intent(getApplicationContext(), Main.class);
 					startActivity(i);
-					//startActivity(new Intent(this, Main.class));
-				}
-				catch (InterruptedException e)
-				{
+					// startActivity(new Intent(this, Main.class));
+				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 				
-				finally
-				{
+				finally {
 					finish();
 				}
 			}
 		};
 		
-		timer.start();	
+		timer.start();
 	}
-
+	
 	@Override
-	protected void onDestroy() 
-	{
+	protected void onDestroy() {
 		super.onDestroy();
 		player.release();
 	}
-
+	
 	@Override
-	protected void onPause() 
-	{
+	protected void onPause() {
 		super.onPause();
 		player.pause();
 	}
-
+	
 	@Override
-	protected void onResume() 
-	{
+	protected void onResume() {
 		super.onResume();
 		player.start();
 	}
-	
 	
 }
