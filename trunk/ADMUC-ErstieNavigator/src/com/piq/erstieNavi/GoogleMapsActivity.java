@@ -273,7 +273,6 @@ public class GoogleMapsActivity extends MapActivity implements LocationListener 
 		// String message = String.format("New Location \n Longitude: %1$s \n Latitude: %2$s", location.getLongitude(), location.getLatitude());
 		// Toast.makeText(GoogleMapsActivity.this, message, Toast.LENGTH_LONG).show();
 		updateWithNewLocation(location);
-		System.out.println("location changed");
 		Toast.makeText(getApplicationContext(), "LOCATION CHANGED", Toast.LENGTH_SHORT).show();
 		update();
 	}
